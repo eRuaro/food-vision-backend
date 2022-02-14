@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 import tensorflow as tf
+import numpy as np
 
 app = FastAPI()
-model_dir = "models/07_efficientnetb0_fine_tuned_101_classes_mixed_precision"
+model_dir = "food-vision-model.h5"
 model = tf.keras.models.load_model(model_dir)
 
 class_predictions = [
@@ -113,7 +114,7 @@ class_predictions = [
 async def root():
     return {"message": "Hello World"}
 
-@app.post("net/image/prediction/{image_link}")
+@app.post("/net/image/prediction/{image_link}")
 async def get_net_image_prediction(image_link: str):
     img_path = tf.keras.utils.get_file(
         origin = image_link
@@ -129,7 +130,7 @@ async def get_net_image_prediction(image_link: str):
     pred = model.predict(img_array)
     score = tf.nn.softmax(pred[0])
 
-    class_prediction = class_names[np.argmax(score)]
+    class_prediction = class_predictions[np.argmax(score)]
     model_score = round(np.max(score) * 100, 2)
 
     return {
