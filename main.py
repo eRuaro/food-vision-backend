@@ -114,8 +114,11 @@ class_predictions = [
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/net/image/prediction/{image_link}")
-async def get_net_image_prediction(image_link: str):
+@app.post("/net/image/prediction/")
+async def get_net_image_prediction(image_link: str = ""):
+    if image_link == "":
+        return {"message": "No image link provided"}
+    
     img_path = tf.keras.utils.get_file(
         origin = image_link
     )
