@@ -112,7 +112,7 @@ class_predictions = [
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Welcome to the Food Vision API!"}
 
 @app.post("/net/image/prediction/")
 async def get_net_image_prediction(image_link: str = ""):
