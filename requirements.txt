@@ -1,3 +1,5 @@
 fastapi
-tensorflow
+tensorflow.keras.models
+tensorflow.keras.utils
+tensorflow.nn
 numpy

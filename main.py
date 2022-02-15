@@ -1,10 +1,16 @@
 from fastapi import FastAPI
-import tensorflow as tf
-import numpy as np
+from tensorflow.keras.models import load_model
+from tensorflow.keras.utils import get_file 
+from tensorflow.keras.utils import load_img 
+from tensorflow.keras.utils import img_to_array
+from tensorflow import expand_dims
+from tensorflow.nn import softmax
+from numpy import argmax
+from numpy import max
 
 app = FastAPI()
 model_dir = "food-vision-model.h5"
-model = tf.keras.models.load_model(model_dir)
+model = load_model(model_dir)
 
 class_predictions = [
     'apple_pie',
@@ -119,22 +125,22 @@ async def get_net_image_prediction(image_link: str = ""):
     if image_link == "":
         return {"message": "No image link provided"}
     
-    img_path = tf.keras.utils.get_file(
+    img_path = get_file(
         origin = image_link
     )
-    img = tf.keras.utils.load_img(
+    img = load_img(
         img_path, 
         target_size = (224, 224)
     )
 
-    img_array = tf.keras.utils.img_to_array(img)
-    img_array = tf.expand_dims(img_array, 0)
+    img_array = img_to_array(img)
+    img_array = expand_dims(img_array, 0)
 
     pred = model.predict(img_array)
-    score = tf.nn.softmax(pred[0])
+    score = softmax(pred[0])
 
-    class_prediction = class_predictions[np.argmax(score)]
-    model_score = round(np.max(score) * 100, 2)
+    class_prediction = class_predictions[argmax(score)]
+    model_score = round(max(score) * 100, 2)
 
     return {
         "model_prediction_class": class_prediction,
