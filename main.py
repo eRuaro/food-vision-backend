@@ -7,12 +7,13 @@ from tensorflow import expand_dims
 from tensorflow.nn import softmax
 from numpy import argmax
 from numpy import max
+from numpy import array
 
 app = FastAPI()
 model_dir = "food-vision-model.h5"
 model = load_model(model_dir)
 
-class_predictions = [
+class_predictions = array([
     'apple_pie',
     'baby_back_ribs',
     'baklava',
@@ -114,7 +115,7 @@ class_predictions = [
     'tiramisu',
     'tuna_tartare',
     'waffles'
-]
+])
 
 @app.get("/")
 async def root():
