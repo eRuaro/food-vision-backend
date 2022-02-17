@@ -8,6 +8,7 @@ from tensorflow.nn import softmax
 from numpy import argmax
 from numpy import max
 from numpy import array
+from json import dumps
 
 app = FastAPI()
 model_dir = "food-vision-model.h5"
@@ -142,6 +143,7 @@ async def get_net_image_prediction(image_link: str = ""):
 
     class_prediction = class_predictions[argmax(score)]
     model_score = round(max(score) * 100, 2)
+    model_score = dumps(model_score)
 
     return {
         "model_prediction_class": class_prediction,
