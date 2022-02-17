@@ -143,7 +143,7 @@ async def get_net_image_prediction(image_link: str = ""):
 
     class_prediction = class_predictions[argmax(score)]
     model_score = round(max(score) * 100, 2)
-    model_score = dumps(model_score)
+    model_score = dumps(model_score.tolist())
 
     return {
         "model_prediction_class": class_prediction,
