@@ -9,6 +9,7 @@ from numpy import argmax
 from numpy import max
 from numpy import array
 from json import dumps
+from uvicorn import run
 
 app = FastAPI()
 model_dir = "food-vision-model.h5"
@@ -149,3 +150,6 @@ async def get_net_image_prediction(image_link: str = ""):
         "model_prediction_class": class_prediction,
         "model_prediction_score": model_score
     }
+
+if __name__ == "__main__":
+    run(app, host="0.0.0.0", port=8000)
