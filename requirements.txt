@@ -1,5 +1,0 @@
-fastapi==0.73.0
-numpy==1.19.5
-uvicorn==0.15.0
-image==1.5.33
-tensorflow-cpu==2.7.0
