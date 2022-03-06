@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import get_file 
 from tensorflow.keras.utils import load_img 
@@ -13,6 +14,19 @@ from uvicorn import run
 import os
 
 app = FastAPI()
+
+origins = ["*"]
+methods = ["*"]
+headers = ["*"]
+
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = methods,
+    allow_headers = headers    
+)
+
 model_dir = "food-vision-model.h5"
 model = load_model(model_dir)
 
